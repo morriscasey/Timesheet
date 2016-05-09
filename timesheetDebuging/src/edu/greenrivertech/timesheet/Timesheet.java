@@ -6,21 +6,34 @@ import java.util.List;
 public class Timesheet
 {
 	
-	private static final int DAYS = 7;
+	public static final int DAYS = 7;
 	private static final int MAX_HOURS = 40;
 
 	private class Week
 	{
 		private int totalHours;
 		private int totalPay;
-		int[] days = new int[DAYS];
+		int[] days;
+		
+		public Week(int totalHours, int totalPay, int[] days)
+		{
+			super();
+			this.totalHours = totalHours;
+			this.totalPay = totalPay;
+			this.days = days;
+		}
+		
+		public Week()
+		{
+			this(0, 0, new int[DAYS]);
+		}
+
 	}
 	
 	//fields
 	private int numberOfWeeks;
 	private Week tempWeek;
-	List<Week> listOfWeeks = new ArrayList<>();
-	
+	private List<Week> listOfWeeks;
 
 	/**
 	 * Constructor
@@ -28,8 +41,8 @@ public class Timesheet
 	public Timesheet()
 	{
 		this.numberOfWeeks = 0;
-		// this.totalHours = 0;
-		// this.totalPay = 0;
+		this.tempWeek = new Week();
+		this.listOfWeeks = new ArrayList<>();
 	}
 
 	
@@ -47,6 +60,9 @@ public class Timesheet
 			for (int i = 0; i < singleWeek.days.length; i++)
 			{
 				double tempDailyPay = 0;
+				
+				singleWeek.totalHours += singleWeek.days[i];
+				
 				// Checks if worked and calculates base pay
 				if (singleWeek.days[i] > 0)
 				{
@@ -81,8 +97,14 @@ public class Timesheet
 
 				singleWeek.totalPay += tempDailyPay;
 			}
+			
+			System.out.println(singleWeek.totalPay);
+
+			
 		}
 	}
+	
+	
 	
 	//Getters and Setters
 
@@ -105,7 +127,7 @@ public class Timesheet
 	}
 
 	/**
-	 * 
+	 * depracated
 	 * @param day
 	 * @param hours
 	 */
@@ -115,14 +137,18 @@ public class Timesheet
 	}
 
 	/**
-	 * 
+	 * Depracated
 	 * @param newWeek
 	 */
 	public void addWeek(Week newWeek)
 	{
-		this.listOfWeeks.add(newWeek);
+		this.listOfWeeks.add(new Week(newWeek.totalHours, newWeek.totalPay, newWeek.days));
 	}
 
+	public void addWeek(int[] newWeek)
+	{
+		this.listOfWeeks.add(new Week(0, 0, newWeek));
+	}
 
 	public Week getTempWeek()
 	{

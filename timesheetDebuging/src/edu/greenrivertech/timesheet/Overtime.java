@@ -26,13 +26,19 @@ public class Overtime
 			String line = fileIn.nextLine();
 			System.out.println(line);
 			Scanner lineIn = new Scanner(line);
+			int[] tempArray = new int[Timesheet.DAYS];
 			// Load in each day into timesheet array
 			for (int j = 0; j < 7; j++)
 			{
-				ourTimesheet.addHour(j, lineIn.nextInt());
+				tempArray[j] = lineIn.nextInt();
+				//ourTimesheet.addHour(j, lineIn.nextInt());
 			}
-			ourTimesheet.addWeek(ourTimesheet.getTempWeek());
+			//ourTimesheet.addWeek(ourTimesheet.getTempWeek());
+			ourTimesheet.addWeek(tempArray);
 		}
+		
+		
+		ourTimesheet.calculatePay();
 	}
 
 }
